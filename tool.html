@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Defect Review Platform</title>
+<style>
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;font:14px/1.5 'Segoe UI',Tahoma,sans-serif;color:#26323d;background:#eef2f4}
+header{background:#2c3e50;color:#fff;padding:18px 24px}
+header h1{margin:0;font-size:20px;font-weight:600}
+main{max-width:1250px;margin:0 auto;padding:18px}
+button{font:inherit;padding:8px 14px;border:0;border-radius:4px;background:#1976d2;color:#fff;cursor:pointer;font-weight:500}
+button:hover{background:#1565c0}button:disabled{background:#b0bec5;cursor:default}
+button.ghost{background:#fff;color:#1976d2;border:1px solid #1976d2;padding:5px 10px}
+.bar,.fl,.sc{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:#fff;padding:12px 14px;border-radius:8px;margin-bottom:12px;border:1px solid #d8e0e5}
+.up{background:#1976d2;color:#fff;padding:9px 16px;border-radius:4px;cursor:pointer;font-weight:600}
+#msg{color:#2e7d32;font-weight:600}
+input[type=text],input[type=date],select{font:inherit;padding:7px 9px;border:1px solid #b8c4cc;border-radius:4px;background:#fff}
+.ms{position:relative}
+.ms>summary{list-style:none;cursor:pointer;padding:7px 12px;border:1px solid #b8c4cc;border-radius:4px;background:#fff;min-width:150px}
+.ms>summary i{font-style:normal;color:#1976d2;font-weight:600}
+.pn{position:absolute;z-index:20;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid #b8c4cc;border-radius:6px;padding:8px;max-height:280px;overflow:auto;min-width:220px;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+.pn label{display:block;padding:3px 4px;cursor:pointer;white-space:nowrap}
+.pn label:hover{background:#eef6ff}
+#warn{background:#ffebee;border:1px solid #d32f2f;color:#b71c1c;padding:10px 14px;border-radius:8px;margin-bottom:12px}
+#sum{background:#fff8e1;border:2px solid #ff9800;border-radius:8px;padding:12px 16px;margin-bottom:12px}
+#sum>summary{cursor:pointer;font-weight:700;color:#e65100;font-size:16px}
+.sc{border:0;padding:10px 0;background:none}
+#ok{color:#2e7d32;font-weight:600;display:none}
+.si{background:#fff;border-left:4px solid #ff9800;padding:6px 10px;margin:6px 0;border-radius:4px}
+#stats{margin:6px 2px 10px;color:#546e7a}
+.card{background:#fff;border:1px solid #d8e0e5;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.card.rev{border-left:6px solid #2e7d32}
+.card.on{border-left:6px solid #ff9800}
+.ch{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;padding:10px 14px;background:#34495e;color:#fff}
+.meta{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.meta b{font-size:15px}
+.exp{background:#d32f2f;padding:1px 8px;border-radius:10px;font-size:12px}
+.acts{display:flex;gap:18px;align-items:center}
+.acts label{cursor:pointer;font-weight:600}
+.acts .dl{color:#ffcc80}
+.db{padding:10px 14px;background:#fff3e0;border-bottom:1px solid #ffcc02}
+.db textarea{width:100%;height:70px;padding:8px;border:2px solid #ff9800;border-radius:6px;font:inherit;resize:vertical}
+.imgs{display:flex;flex-wrap:wrap;gap:10px;padding:12px 14px;background:#f5f7f8}
+figure{margin:0;background:#fff;border:1px solid #d8e0e5;border-radius:6px;padding:6px}
+.ic{display:none;margin-bottom:4px}
+.card.on .ic{display:block}
+.ic input{width:20px;height:20px;accent-color:#ff9800;cursor:pointer}
+figure img{display:block;width:230px;height:230px;object-fit:contain;cursor:zoom-in;background:#eceff1}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;padding:12px 14px}
+.info b{display:block;color:#546e7a;font-size:12px;margin-bottom:3px}
+.chip{display:inline-block;background:#e3f2fd;border-radius:10px;padding:1px 8px;margin:2px 3px 2px 0;font-size:12px}
+.chip.bad{background:#ffcdd2}.chip.miss{background:#ffe0b2}
+.lk a{margin-right:14px;color:#1976d2;font-weight:600;text-decoration:none}
+.lk a:hover{text-decoration:underline}
+#pager{text-align:center;margin:14px 0}
+#pager button{margin:0 10px}
+.empty{text-align:center;padding:40px;color:#78909c}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:50;display:flex;align-items:center;justify-content:center;cursor:zoom-out}
+#lb img{max-width:92vw;max-height:92vh}
+html{scroll-behavior:smooth}
+.fl{position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.ms>summary{min-width:0;white-space:nowrap}
+.ms.act>summary{border-color:#1976d2;background:#e8f1fb}
+.pn{width:270px;padding:10px;min-width:0}
+.pn .sq{width:100%;margin-bottom:8px}
+.pb{display:flex;gap:6px;margin-bottom:6px}
+.ol{max-height:230px;overflow:auto}
+.ol label{display:flex;align-items:center;gap:6px}
+.ol label span{flex:1;overflow:hidden;text-overflow:ellipsis}
+em{font-style:normal;color:#78909c;font-size:12px}
+.none{color:#90a4ae;padding:6px}
+.seg{display:flex;border:1px solid #b8c4cc;border-radius:6px;overflow:hidden;margin-left:auto}
+.seg button{background:#fff;color:#455a64;border-radius:0;padding:6px 12px;border-right:1px solid #e0e6ea}
+.seg button:hover{background:#eef6ff}
+.seg button.on,.seg button.on:hover{background:#1976d2;color:#fff}
+.seg button.on em{color:#cfe3f7}
+#chips{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+#chips:empty{display:none}
+.fc{background:#e8f1fb;border-radius:12px;padding:2px 4px 2px 10px;font-size:12px}
+.fc button{background:none;color:#1976d2;padding:0 6px;font-size:15px}
+.mut{color:#78909c}
+.imgs{flex-wrap:nowrap;overflow-x:auto}
+figure{flex:none}
+figure img{width:170px;height:170px}
+.card{box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.meta span{color:#cfd8dc}
+.meta .exp{color:#fff}
+.info{font-size:13px}
+body{font-family:'Segoe UI Variable','Segoe UI',system-ui,sans-serif;background:#f1f4f6;color:#1f2d3a;-webkit-font-smoothing:antialiased}
+header{background:linear-gradient(90deg,#22313f,#34495e);padding:16px 24px}
+header h1{font-size:18px;letter-spacing:.2px}
+button{border-radius:6px;transition:background .15s}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #1976d2;outline-offset:2px}
+.intro{background:#fff;border:1px dashed #90a4ae;border-radius:10px;text-align:center;padding:44px 20px;margin:14px 0;color:#546e7a}
+.intro h2{margin:0 0 8px;color:#1f2d3a;font-size:20px;font-weight:600}
+#prog{height:5px;background:#dfe6ea;border-radius:3px;margin:0 2px 14px;overflow:hidden}
+#prog i{display:block;height:100%;width:0;background:#2e7d32;transition:width .3s}
+.card{border-radius:10px}
+.ch{background:#fff;color:#1f2d3a;border-bottom:1px solid #d8e0e5}
+.meta b{font-size:16px;color:#0d47a1}
+.meta span{color:#546e7a}
+.meta .exp{color:#fff}
+.acts label{padding:4px 12px;border:1px solid #d8e0e5;border-radius:16px;background:#fafbfc}
+.acts .dl{color:#ef6c00}
+.card.rev .acts label:first-child{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}
+.card.on .acts .dl{background:#fff3e0;border-color:#ffb74d}
+.dt{display:flex;gap:8px;margin-bottom:8px}
+figure img.err{font-size:12px;color:#90a4ae;background:#eceff1}
+.si{font-size:13px}
+@media(max-width:700px){.seg{margin-left:0}.info{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+#credit{font-size:12px;opacity:.85}
+footer{text-align:center;color:#78909c;font-size:12px;padding:20px}
+</style>
+</head>
+<body>
+<header><h1>SUSTAINABLE PACKAGING OPERATIONS - DEFECT REVIEW PLATFORM</h1><span id="credit"></span></header>
+<main>
+<div class="bar">
+  <label class="up">Choose Excel File<input type="file" id="file" accept=".xlsx" hidden></label>
+  <span id="fname">No file selected</span><span id="msg"></span>
+  <button class="ghost" id="clear" style="margin-left:auto">Clear saved reviews</button>
+</div>
+<div class="intro" id="intro"><h2>Review static defects faster</h2><p>Choose the static .xlsx file above, or drop it anywhere on this page.<br>Everything stays on your computer; nothing is uploaded.</p></div>
+<div class="fl" id="filters" hidden>
+  <span id="msbox" style="display:contents"></span>
+  <input type="text" id="q" placeholder="Search ASIN, ID or login">
+  <select id="psize"><option>10</option><option>25</option><option>50</option></select><span class="mut">per page</span>
+  <div class="seg" id="status"></div>
+  <div id="chips"></div>
+</div>
+<div id="warn" hidden></div>
+<details id="sum" hidden>
+  <summary>Disputed defects (<span id="dc">0</span>)</summary>
+  <div class="sc">Email Received Date <input type="date" id="rd"><button id="copy">Copy to Clipboard (Excel Format)</button><span id="ok">Copied!</span></div>
+  <div id="slist"></div>
+</details>
+<div id="stats"></div>
+<div id="prog"><i></i></div>
+<div id="list"></div>
+<div id="pager"></div>
+</main>
+<footer id="foot"></footer>
+<div id="lb" hidden><img id="lbi" alt=""></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const E = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => (n < 10 ? '0' : '') + n;
+const CREDIT = {name: 'Abhishek Sharma', contact: 'lshaabh', ver: 'v1.0'};
+$('credit').textContent = 'Built by ' + CREDIT.name + ' | ' + CREDIT.ver;
+$('foot').textContent = 'Defect Review Platform ' + CREDIT.ver + ' | Built by ' + CREDIT.name + ' | Contact: ' + CREDIT.contact;
+console.log('Defect Review Platform ' + CREDIT.ver + ' by ' + CREDIT.name);
+const DL = 'https://share.amazon.com/sites/cpexaudits/Lists/CPEXAudits/EditForm.aspx?ID=';
+const KEY = 'defectReviewState_v1';
+const MS = {mgr: 'Manager', assoc: 'Associate', date: 'Job Review Date', pkg: 'Package Type', week: 'Week'}, ORDER = Object.keys(MS);
+const SL = {all: 'All', un: 'Unreviewed', rev: 'Reviewed', dis: 'Disputed'};
+const newF = () => ({mgr: new Set(), assoc: new Set(), date: new Set(), pkg: new Set(), week: new Set()});
+let rows = [], F = newF(), page = 0, stat = 'all', state = {};
+try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { state = {}; }
+const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+const t = new Date(); $('rd').value = t.getFullYear() + '-' + pad(t.getMonth() + 1) + '-' + pad(t.getDate());
+
+/* ---------- read .xlsx without any library ---------- */
+async function unzip(buf) {
+  const dv = new DataView(buf), u8 = new Uint8Array(buf), files = {};
+  let e = u8.length - 22;
+  while (e >= 0 && dv.getUint32(e, true) !== 0x06054b50) e--;
+  const n = dv.getUint16(e + 10, true); let p = dv.getUint32(e + 16, true);
+  for (let i = 0; i < n; i++) {
+    const nl = dv.getUint16(p + 28, true), xl = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true);
+    files[new TextDecoder().decode(u8.subarray(p + 46, p + 46 + nl))] = {m: dv.getUint16(p + 10, true), cs: dv.getUint32(p + 20, true), lo: dv.getUint32(p + 42, true)};
+    p += 46 + nl + xl + cl;
+  }
+  return async name => {
+    const f = files[name]; if (!f) return null;
+    const s = f.lo + 30 + dv.getUint16(f.lo + 26, true) + dv.getUint16(f.lo + 28, true), d = u8.subarray(s, s + f.cs);
+    if (f.m === 0) return new TextDecoder().decode(d);
+    return new TextDecoder().decode(await new Response(new Blob([d]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+  };
+}
+async function parseXlsx(buf) {
+  const get = await unzip(buf), P = x => new DOMParser().parseFromString(x, 'application/xml');
+  const wb = P(await get('xl/workbook.xml')), rels = P(await get('xl/_rels/workbook.xml.rels'));
+  const rid = wb.getElementsByTagName('sheet')[0].getAttribute('r:id');
+  let target = 'worksheets/sheet1.xml';
+  for (const r of rels.getElementsByTagName('Relationship')) if (r.getAttribute('Id') === rid) target = r.getAttribute('Target');
+  target = target.replace(/^\//, ''); if (!target.startsWith('xl/')) target = 'xl/' + target;
+  const ss = [], sst = await get('xl/sharedStrings.xml');
+  if (sst) for (const si of P(sst).getElementsByTagName('si')) {
+    let s = ''; for (const x of si.getElementsByTagName('t')) if (x.parentNode.nodeName !== 'rPh') s += x.textContent; ss.push(s);
+  }
+  const dateXf = [], st = await get('xl/styles.xml');
+  if (st) {
+    const sd = P(st), custom = {};
+    for (const nf of sd.getElementsByTagName('numFmt')) custom[nf.getAttribute('numFmtId')] = nf.getAttribute('formatCode');
+    const cx = sd.getElementsByTagName('cellXfs')[0];
+    if (cx) for (const xf of cx.getElementsByTagName('xf')) {
+      const id = +xf.getAttribute('numFmtId'), code = custom[id];
+      dateXf.push(code ? /[dmy]/i.test(code.replace(/"[^"]*"|\[[^\]]*\]/g, '')) : (id >= 14 && id <= 22) || (id >= 45 && id <= 47));
+    }
+  }
+  const data = [];
+  for (const r of P(await get(target)).getElementsByTagName('row')) {
+    const row = [];
+    for (const c of r.getElementsByTagName('c')) {
+      let ci = 0; for (const ch of c.getAttribute('r').replace(/\d/g, '')) ci = ci * 26 + ch.charCodeAt(0) - 64;
+      const ty = c.getAttribute('t'), v = c.getElementsByTagName('v')[0]; let val = '';
+      if (ty === 's') val = ss[+v.textContent]; else if (ty === 'inlineStr') val = c.textContent;
+      else if (v) {
+        val = v.textContent;
+        if ((!ty || ty === 'n') && dateXf[+c.getAttribute('s')]) { const d = new Date(Math.round((+val - 25569) * 864e5)); val = pad(d.getUTCMonth() + 1) + '/' + pad(d.getUTCDate()) + '/' + d.getUTCFullYear(); }
+      }
+      row[ci - 1] = val;
+    }
+    data.push(row);
+  }
+  return data;
+}
+
+/* ---------- build rows ---------- */
+function build(data) {
+  const hd = data[0].map(h => String(h || '').trim()), H = {};
+  hd.forEach((h, i) => H[h.toLowerCase()] = i);
+  const ic = hd.map((h, i) => [h, i]).filter(a => /^url[_ ]?\d+$/i.test(a[0])).sort((a, b) => a[0].replace(/\D/g, '') - b[0].replace(/\D/g, '')).map(a => a[1]);
+  const g = (r, k) => H[k] !== undefined && r[H[k]] != null ? String(r[H[k]]).trim() : '';
+  rows = data.slice(1).filter(r => r && (g(r, 'id') || g(r, 'asin'))).map(r => ({
+    id: g(r, 'id'), asin: g(r, 'asin'), pkg: g(r, 'package type'), week: g(r, 'week'), assoc: g(r, 'associate 1'),
+    date: g(r, 'job review date'), mgr: g(r, 'manager'), resp: g(r, 'decision_reason_code_1'), aud: g(r, 'auditor reason code'),
+    root: g(r, 'root cause 1'), retail: g(r, 'retail page url') || 'http://www.amazon.com/dp/' + g(r, 'asin'), exp: g(r, 'url_expiry_date'),
+    imgs: ic.map((c, k) => ({k, u: r[c] ? String(r[c]).trim() : ''})).filter(m => /^https?:/i.test(m.u))
+  }));
+  const seen = {}; rows.forEach(r => { let k = r.id + '|' + r.assoc; seen[k] = (seen[k] || 0) + 1; r.key = seen[k] > 1 ? k + '#' + seen[k] : k; });
+  F = newF(); page = 0; stat = 'all'; $('q').value = '';
+  $('msbox').innerHTML = ORDER.map(k => `<details class="ms" data-k="${k}"><summary>${MS[k]}: <i>All</i></summary><div class="pn"><input type="text" class="sq" placeholder="Search ${MS[k].toLowerCase()}..."><div class="pb"><button type="button" class="ghost" data-all="1">Select shown</button><button type="button" class="ghost" data-clr="1">Clear</button></div><div class="ol"></div></div></details>`).join('');
+  $('filters').hidden = false;
+  const x = rows.filter(isExp).length;
+  $('warn').hidden = !x;
+  $('warn').textContent = x + ' of ' + rows.length + ' defects have expired image links, so their images will not load. Ask for a fresh static file if you need to see them.';
+  render(); sumRender();
+}
+const isExp = r => r.exp && Date.parse(r.exp) + 864e5 < Date.now();
+
+/* ---------- filters + render ---------- */
+function match(r, skip, noStatus) {
+  for (const k of ORDER) if (k !== skip && F[k].size && !F[k].has(r[k])) return false;
+  if (!noStatus) { const s = state[r.key] || {}; if ((stat === 'un' && s.r) || (stat === 'rev' && !s.r) || (stat === 'dis' && !s.d)) return false; }
+  const q = $('q').value.trim().toLowerCase();
+  return !q || (r.id + ' ' + r.asin + ' ' + r.assoc).toLowerCase().includes(q);
+}
+const flt = () => rows.filter(r => match(r));
+function fillMS(k) {
+  const d = document.querySelector('.ms[data-k="' + k + '"]'); if (!d) return;
+  const cnt = {}; rows.forEach(r => { if (r[k] && match(r, k, true)) cnt[r[k]] = (cnt[r[k]] || 0) + 1; });
+  F[k].forEach(v => { if (!(v in cnt)) cnt[v] = 0; });
+  const sq = d.querySelector('.sq').value.toLowerCase(), vals = Object.keys(cnt);
+  if (k === 'date') vals.sort((a, b) => Date.parse(b) - Date.parse(a)); else if (k === 'week') vals.sort((a, b) => b - a); else vals.sort();
+  const box = d.querySelector('.ol'), top = box.scrollTop;
+  box.innerHTML = vals.filter(v => v.toLowerCase().includes(sq)).map(v => `<label><input type="checkbox" value="${E(v)}"${F[k].has(v) ? ' checked' : ''}><span>${E(v)}</span><em>${cnt[v]}</em></label>`).join('') || '<p class="none">No options</p>';
+  box.scrollTop = top;
+  d.querySelector('summary i').textContent = F[k].size ? F[k].size + ' selected' : 'All';
+  d.classList.toggle('act', F[k].size > 0);
+}
+const chips = (x, c) => String(x).split(',').map(a => a.trim()).filter(Boolean).map(a => `<span class="chip ${c}">${E(a)}</span>`).join('');
+function rootHTML(x) {
+  let inc = '', mis = '';
+  x.split('||').forEach(p => { const m = p.match(/^\s*(INCORRECT|MISSED) ATTRIBUTE:(.*)$/i); if (m) { if (/^i/i.test(m[1])) inc = m[2]; else mis = m[2]; } });
+  return (inc ? `<div>Incorrect: ${chips(inc, 'bad')}</div>` : '') + (mis ? `<div>Missed: ${chips(mis, 'miss')}</div>` : '') || E(x);
+}
+function card(r) {
+  const s = state[r.key] || {}, sel = new Set(s.i || []);
+  return `<article class="card${s.d ? ' on' : ''}${s.r ? ' rev' : ''}" data-id="${E(r.key)}">
+<div class="ch"><div class="meta"><b>${E(r.asin)}</b><span>ID ${E(r.id)}</span><span>Login: ${E(r.assoc)}</span><span>${E(r.date)}</span><span>Week ${E(r.week)}</span><span>${E(r.pkg)}</span><span>Manager: ${E(r.mgr)}</span>${isExp(r) ? '<span class="exp">Image links expired</span>' : ''}</div>
+<div class="acts"><label><input type="checkbox" class="cr"${s.r ? ' checked' : ''}> Reviewed</label><label class="dl"><input type="checkbox" class="cd"${s.d ? ' checked' : ''}> Mark for Dispute</label></div></div>
+<div class="db"${s.d ? '' : ' hidden'}><div class="dt"><button type="button" class="ghost" data-sa="1">Select all images</button><button type="button" class="ghost" data-sa="0">Clear images</button></div><textarea placeholder="Enter dispute comment (saved automatically)...">${E(s.c || '')}</textarea></div>
+<div class="imgs">${r.imgs.map(m => `<figure><label class="ic"><input type="checkbox" data-k="${m.k}"${sel.has(m.k) ? ' checked' : ''}></label><img loading="lazy" src="${E(m.u)}" alt="Image unavailable" data-z="1"></figure>`).join('') || '<i>No images in this row</i>'}</div>
+<div class="info"><div><b>Associate response</b>${chips(r.resp, '')}</div><div><b>Auditor response</b>${chips(r.aud, '')}</div><div><b>Root cause</b>${rootHTML(r.root)}</div>
+<div class="lk"><a href="${E(r.retail)}" target="_blank">Retail page</a><a href="${DL}${E(r.id)}" target="_blank">Dispute link</a></div></div></article>`;
+}
+function stats(f) {
+  f = f || flt();
+  const rv = rows.filter(r => (state[r.key] || {}).r).length, dp = rows.filter(r => (state[r.key] || {}).d).length;
+  $('stats').textContent = 'Showing ' + f.length + ' of ' + rows.length + ' defects  |  Reviewed ' + rv + ' of ' + rows.length + '  |  Disputed ' + dp;
+  $('prog').firstChild.style.width = (rows.length ? rv * 100 / rows.length : 0) + '%';
+}
+function render() {
+  const f = flt(), ps = +$('psize').value, pages = Math.max(1, Math.ceil(f.length / ps));
+  if (page >= pages) page = pages - 1;
+  $('list').innerHTML = f.slice(page * ps, page * ps + ps).map(card).join('') || '<p class="empty">No defects match these filters.</p>';
+  $('pager').innerHTML = `<button data-p="-1"${page ? '' : ' disabled'}>Previous</button>Page ${page + 1} of ${pages}<button data-p="1"${page < pages - 1 ? '' : ' disabled'}>Next</button>`;
+  ORDER.forEach(fillMS);
+  const base = rows.filter(r => match(r, null, true)), n = fn => base.filter(r => fn(state[r.key] || {})).length;
+  const c = {all: base.length, un: n(x => !x.r), rev: n(x => x.r), dis: n(x => x.d)};
+  $('status').innerHTML = Object.keys(SL).map(k => `<button data-s="${k}"${stat === k ? ' class="on"' : ''}>${SL[k]} <em>${c[k]}</em></button>`).join('');
+  const ch = []; ORDER.forEach(k => F[k].forEach(v => ch.push(`<span class="fc">${MS[k]}: ${E(v)}<button data-k="${k}" data-v="${E(v)}">&times;</button></span>`)));
+  $('chips').innerHTML = ch.length ? ch.join('') + '<button class="ghost" data-all="1">Clear all filters</button>' : '';
+  stats(f);
+}
+const disputed = () => rows.filter(r => (state[r.key] || {}).d);
+function sumRender() {
+  const d = disputed();
+  $('sum').hidden = !d.length; $('dc').textContent = d.length;
+  $('slist').innerHTML = d.map(r => { const s = state[r.key], n = (s.i || []).length; return `<div class="si"><b>${E(r.asin)}</b> | ${E(r.assoc)} | ${n} image link${n === 1 ? '' : 's'} | ${E(s.c || '(no comment yet)')}</div>`; }).join('');
+}
+
+/* ---------- events ---------- */
+async function loadFile(f) {
+  if (!f) return;
+  $('fname').textContent = f.name; $('msg').style.color = ''; $('msg').textContent = 'Reading file...';
+  try { build(await parseXlsx(await f.arrayBuffer())); $('msg').textContent = rows.length + ' defects loaded'; $('intro').hidden = true; }
+  catch (err) { console.error(err); $('msg').style.color = '#b71c1c'; $('msg').textContent = 'Could not read this file. Please upload the .xlsx static file (use Chrome or Edge).'; }
+}
+$('file').addEventListener('change', e => loadFile(e.target.files[0]));
+['dragover', 'drop'].forEach(n => document.addEventListener(n, e => { e.preventDefault(); if (n === 'drop') loadFile(e.dataTransfer.files[0]); }));
+document.addEventListener('error', e => { if (e.target.tagName === 'IMG' && e.target.id !== 'lbi') e.target.classList.add('err'); }, true);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') $('lb').hidden = true; });
+$('msbox').addEventListener('change', e => {
+  const d = e.target.closest('.ms'); if (!d || e.target.classList.contains('sq')) return;
+  const k = d.dataset.k; e.target.checked ? F[k].add(e.target.value) : F[k].delete(e.target.value); page = 0; render();
+});
+$('msbox').addEventListener('input', e => { if (e.target.classList.contains('sq')) fillMS(e.target.closest('.ms').dataset.k); });
+$('msbox').addEventListener('click', e => {
+  const d = e.target.closest('.ms'); if (!d) return; const k = d.dataset.k;
+  if (e.target.dataset.clr) { F[k].clear(); page = 0; render(); }
+  else if (e.target.dataset.all) { d.querySelectorAll('.ol input').forEach(i => F[k].add(i.value)); page = 0; render(); }
+});
+document.addEventListener('click', e => document.querySelectorAll('.ms[open]').forEach(d => { if (!d.contains(e.target)) d.open = false; }));
+$('status').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { stat = b.dataset.s; page = 0; render(); } });
+$('chips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.all) { F = newF(); $('q').value = ''; stat = 'all'; } else F[b.dataset.k].delete(b.dataset.v);
+  page = 0; render();
+});
+$('psize').addEventListener('change', () => { page = 0; render(); });
+$('q').addEventListener('input', () => { page = 0; render(); });
+$('pager').addEventListener('click', e => { if (e.target.dataset.p) { page += +e.target.dataset.p; render(); $('stats').scrollIntoView(); } });
+$('list').addEventListener('change', e => {
+  const el = e.target, c = el.closest('.card'); if (!c) return;
+  const s = state[c.dataset.id] = state[c.dataset.id] || {};
+  if (el.classList.contains('cr')) { s.r = el.checked; c.classList.toggle('rev', el.checked); }
+  else if (el.classList.contains('cd')) {
+    s.d = el.checked; c.classList.toggle('on', el.checked); c.querySelector('.db').hidden = !el.checked;
+    if (!el.checked) { s.i = []; s.c = ''; c.querySelectorAll('.ic input').forEach(i => i.checked = false); c.querySelector('textarea').value = ''; }
+  } else if (el.closest('.ic')) s.i = [...c.querySelectorAll('.ic input:checked')].map(i => +i.dataset.k);
+  persist(); sumRender(); stats();
+});
+$('list').addEventListener('input', e => {
+  if (e.target.tagName !== 'TEXTAREA') return;
+  const c = e.target.closest('.card'), s = state[c.dataset.id] = state[c.dataset.id] || {};
+  s.c = e.target.value; persist(); sumRender();
+});
+$('list').addEventListener('click', e => {
+  const el = e.target;
+  if (el.dataset.z) { $('lbi').src = el.src; $('lb').hidden = false; }
+  else if (el.dataset.sa !== undefined) {
+    const c = el.closest('.card'), s = state[c.dataset.id] = state[c.dataset.id] || {};
+    c.querySelectorAll('.ic input').forEach(i => i.checked = el.dataset.sa === '1');
+    s.i = [...c.querySelectorAll('.ic input:checked')].map(i => +i.dataset.k); persist(); sumRender();
+  }
+});
+$('lb').addEventListener('click', () => $('lb').hidden = true);
+$('clear').addEventListener('click', () => { if (confirm('Clear all saved Reviewed / Dispute marks and comments?')) { state = {}; persist(); render(); sumRender(); } });
+
+/* ---------- copy to Excel (clickable hyperlinks) ---------- */
+function copyX() {
+  const d = disputed(); if (!d.length) return;
+  let mx = 4; d.forEach(r => mx = Math.max(mx, (state[r.key].i || []).length));
+  const hd = ['Email Received Date', 'Associate ID', 'ASIN']; for (let k = 1; k <= mx; k++) hd.push('Link' + k);
+  hd.push('Job Review Date', 'ASIN Link', 'Dispute Link', 'Dispute Comment');
+  const q = String.fromCharCode(39), cs = 'border:1px solid #999999;padding:2px;', td = '<td style=' + q + cs + q + '>', th = '<th style=' + q + cs + 'background:#e0e0e0;' + q + '>';
+  const attr = u => String(u).replace(/&/g, '&amp;').replace(/'/g, '%27').replace(/</g, '%3C').replace(/>/g, '%3E');
+  const val = v => v == null || v === '' ? 'N/A' : String(v), clean = v => val(v).replace(/[\t\r\n]+/g, ' ');
+  const cell = v => td + E(val(v)) + '</td>', lc = (u, l) => u ? td + '<a href=' + q + attr(u) + q + '>' + l + '</a></td>' : td + '</td>';
+  const p = $('rd').value.split('-'), rdate = p.length === 3 ? p[1] + '/' + p[2] + '/' + p[0] : '';
+  let html = '<table><tr>' + hd.map(h => th + h + '</th>').join('') + '</tr>', text = hd.join('\t') + '\n';
+  d.forEach(r => {
+    const s = state[r.key], links = (s.i || []).slice().sort((a, b) => a - b).map(k => (r.imgs.find(m => m.k === k) || {}).u).filter(Boolean);
+    const dl = DL + r.id, row = [clean(rdate), clean(r.assoc), clean(r.asin)];
+    html += '<tr>' + cell(rdate) + cell(r.assoc) + cell(r.asin);
+    for (let i = 0; i < mx; i++) { html += lc(links[i], 'image ' + (i + 1)); row.push(links[i] || ''); }
+    html += cell(r.date) + lc(r.retail, 'asin_link') + lc(dl, 'Dispute_link') + cell(s.c) + '</tr>';
+    row.push(clean(r.date), clean(r.retail), clean(dl), clean(s.c)); text += row.join('\t') + '\n';
+  });
+  html += '</table>';
+  const done = () => { $('ok').style.display = 'inline'; setTimeout(() => $('ok').style.display = 'none', 3000); };
+  const fallback = () => {
+    const div = document.createElement('div'); div.style.cssText = 'position:fixed;left:-9999px'; div.innerHTML = html; document.body.appendChild(div);
+    const rg = document.createRange(); rg.selectNodeContents(div); const sl = getSelection(); sl.removeAllRanges(); sl.addRange(rg);
+    document.execCommand('copy'); sl.removeAllRanges(); document.body.removeChild(div); done();
+  };
+  if (navigator.clipboard && window.ClipboardItem) navigator.clipboard.write([new ClipboardItem({'text/html': new Blob([html], {type: 'text/html'}), 'text/plain': new Blob([text], {type: 'text/plain'})})]).then(done).catch(fallback);
+  else fallback();
+}
+$('copy').addEventListener('click', copyX);
+</script>
+</body>
+</html>
