@@ -43,12 +43,6 @@ input[type=text],input[type=date],select{font:inherit;padding:7px 9px;border:1px
 .acts .dl{color:#ffcc80}
 .db{padding:10px 14px;background:#fff3e0;border-bottom:1px solid #ffcc02}
 .db textarea{width:100%;height:70px;padding:8px;border:2px solid #ff9800;border-radius:6px;font:inherit;resize:vertical}
-.imgs{display:flex;flex-wrap:wrap;gap:10px;padding:12px 14px;background:#f5f7f8}
-figure{margin:0;background:#fff;border:1px solid #d8e0e5;border-radius:6px;padding:6px}
-.ic{display:none;margin-bottom:4px}
-.card.on .ic{display:block}
-.ic input{width:20px;height:20px;accent-color:#ff9800;cursor:pointer}
-figure img{display:block;width:230px;height:230px;object-fit:contain;cursor:zoom-in;background:#eceff1}
 .info{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;padding:12px 14px}
 .info b{display:block;color:#546e7a;font-size:12px;margin-bottom:3px}
 .chip{display:inline-block;background:#e3f2fd;border-radius:10px;padding:1px 8px;margin:2px 3px 2px 0;font-size:12px}
@@ -58,8 +52,6 @@ figure img{display:block;width:230px;height:230px;object-fit:contain;cursor:zoom
 #pager{text-align:center;margin:14px 0}
 #pager button{margin:0 10px}
 .empty{text-align:center;padding:40px;color:#78909c}
-#lb{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:50;display:flex;align-items:center;justify-content:center;cursor:zoom-out}
-#lb img{max-width:92vw;max-height:92vh}
 html{scroll-behavior:smooth}
 .fl{position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .ms>summary{min-width:0;white-space:nowrap}
@@ -82,9 +74,6 @@ em{font-style:normal;color:#78909c;font-size:12px}
 .fc{background:#e8f1fb;border-radius:12px;padding:2px 4px 2px 10px;font-size:12px}
 .fc button{background:none;color:#1976d2;padding:0 6px;font-size:15px}
 .mut{color:#78909c}
-.imgs{flex-wrap:nowrap;overflow-x:auto}
-figure{flex:none}
-figure img{width:170px;height:170px}
 .card{box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .meta span{color:#cfd8dc}
 .meta .exp{color:#fff}
@@ -108,13 +97,64 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 .card.rev .acts label:first-child{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}
 .card.on .acts .dl{background:#fff3e0;border-color:#ffb74d}
 .dt{display:flex;gap:8px;margin-bottom:8px}
-figure img.err{font-size:12px;color:#90a4ae;background:#eceff1}
 .si{font-size:13px}
 @media(max-width:700px){.seg{margin-left:0}.info{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 #credit{font-size:12px;opacity:.85}
 footer{text-align:center;color:#78909c;font-size:12px;padding:20px}
+body{background:#f3f6f8;font-size:14px}
+header{background:#1b2a38;border-bottom:3px solid #3fb6a8}
+header h1{font-size:17px;font-weight:600;letter-spacing:.3px}
+button{background:#1d6fd8;font-weight:600;border-radius:8px;padding:8px 14px}
+button:hover{background:#1559b0}
+button.ghost{background:#fff;color:#1d6fd8;border:1px solid #b9cbe0}
+button.ghost:hover{background:#eef5fd}
+.up{background:#1d6fd8;border-radius:8px}.up:hover{background:#1559b0}
+.bar,.fl{border-radius:12px;border-color:#dbe3ea;box-shadow:0 1px 2px rgba(15,30,45,.05)}
+.fl{background:rgba(255,255,255,.96);backdrop-filter:blur(6px)}
+input[type=text],input[type=date],select,.ms>summary{border-radius:8px;border-color:#c5d2de}
+.card{border-radius:12px;border-color:#dbe3ea;box-shadow:0 1px 3px rgba(15,30,45,.06);transition:box-shadow .2s}
+.card:hover{box-shadow:0 4px 14px rgba(15,30,45,.1)}
+.meta b{color:#0b4a9e;font-variant-numeric:tabular-nums}
+.chip{border-radius:999px}
+.db{background:#fff6e8}
+.db textarea{border-radius:8px}
+#sum{border-radius:12px}
+#pager button{min-width:100px}
+.imgs{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 16px;background:#f7f9fb;border-top:1px solid #e6ecf0}
+.inav{display:flex;align-items:center;gap:8px;padding-right:14px;border-right:1px solid #d8e0e5}
+.inav button{padding:2px 12px;font-size:18px;line-height:1.3}
+.icur{font-size:13px;font-weight:600;color:#455a64;min-width:98px;text-align:center}
+.ilist{display:flex;flex-wrap:wrap;gap:6px}
+.ip{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid #d3dce4;border-radius:999px;padding:3px 12px 3px 10px}
+.ip.cur{border-color:#1d6fd8;background:#eaf3ff}
+.ip a{color:#1d6fd8;font-weight:600;text-decoration:none;font-size:13px}
+.ip a:hover{text-decoration:underline}
+.ic{display:none}
+.card.on .ic{display:inline-flex}
+.ic input{width:17px;height:17px;accent-color:#ef6c00;cursor:pointer}
+#vbar{position:fixed;left:18px;bottom:18px;z-index:40;display:flex;align-items:center;gap:10px;background:#0f2a43;color:#fff;padding:8px 10px 8px 14px;border-radius:999px;box-shadow:0 8px 24px rgba(15,42,67,.35)}
+#vbar button{background:rgba(255,255,255,.14);padding:2px 14px 6px;font-size:22px;line-height:1.1;border-radius:999px}
+#vbar button:hover{background:rgba(255,255,255,.28)}
+#vbar #vx{font-size:18px;padding:3px 10px 5px}
+#vt{font-size:13px;font-weight:600;min-width:150px;text-align:center}
+.meta span{background:#eef3f7;border-radius:999px;padding:1px 10px;font-size:12px}
+.meta .exp{background:#d32f2f}
+.ch{background:#f8fafc}
+.card.rev{border-left-color:#2e7d32}
+.card.on{border-left-color:#ef6c00}
+.seg button{font-weight:600}
+.dispute-summary-section{border-radius:12px}
+.sh{display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:#e65100}
+.sh b{font-size:16px}
+.sh label{color:#455a64;font-weight:600}
+.sp{flex:1}
+#slist{margin-top:10px}
+.inav{border-right:0;padding-right:4px}
+.fl{padding:9px 12px;gap:8px}
+#sort{width:190px}
+.ip.dup{border-style:dashed}
 </style>
 </head>
 <body>
@@ -130,22 +170,23 @@ footer{text-align:center;color:#78909c;font-size:12px;padding:20px}
   <span id="msbox" style="display:contents"></span>
   <input type="text" id="q" placeholder="Search ASIN, ID or login">
   <select id="psize"><option>10</option><option>25</option><option>50</option></select><span class="mut">per page</span>
+  <select id="sort" aria-label="Sort"><option value="file">Sort: File order</option><option value="assoc">Sort: Associate A-Z</option><option value="asin">Sort: ASIN A-Z</option><option value="date">Sort: Newest review date</option></select>
   <div class="seg" id="status"></div>
   <div id="chips"></div>
 </div>
 <div id="warn" hidden></div>
-<details id="sum" hidden>
-  <summary>Disputed defects (<span id="dc">0</span>)</summary>
-  <div class="sc">Email Received Date <input type="date" id="rd"><button id="copy">Copy to Clipboard (Excel Format)</button><span id="ok">Copied!</span></div>
-  <div id="slist"></div>
-</details>
+<div id="sum" hidden>
+  <div class="sh"><b>Disputed defects (<span id="dc">0</span>)</b><span class="sp"></span><label>Email Received Date <input type="date" id="rd"></label><button id="copy">Copy to Clipboard (Excel Format)</button><span id="ok">Copied!</span><button class="ghost" id="stg">Show list</button></div>
+  <div id="slist" hidden></div>
+</div>
 <div id="stats"></div>
 <div id="prog"><i></i></div>
 <div id="list"></div>
 <div id="pager"></div>
 </main>
+<div id="vbar" hidden><button id="vp" aria-label="Previous image">&#8249;</button><span id="vt"></span><button id="vn" aria-label="Next image">&#8250;</button><button id="vx" aria-label="Close">&times;</button></div>
 <footer id="foot"></footer>
-<div id="lb" hidden><img id="lbi" alt=""></div>
+
 
 <script>
 const $ = id => document.getElementById(id);
@@ -234,6 +275,13 @@ function build(data) {
     root: g(r, 'root cause 1'), retail: g(r, 'retail page url') || 'http://www.amazon.com/dp/' + g(r, 'asin'), exp: g(r, 'url_expiry_date'),
     imgs: ic.map((c, k) => ({k, u: r[c] ? String(r[c]).trim() : ''})).filter(m => /^https?:/i.test(m.u))
   }));
+  const base = u => u.replace(/\?X-Amz.*$/, ''), orig = u => base(u).replace('crop_rgb_image', 'raw_rgb_image').replace('/cropped/', '/');
+  rows.forEach(r => {
+    const total = r.imgs.length, seenU = new Set();
+    let l = r.imgs.filter(m => { const b = base(m.u); if (seenU.has(b)) return false; seenU.add(b); return true; });
+    l = l.filter(m => !(orig(m.u) !== base(m.u) && seenU.has(orig(m.u))));
+    r.hidden = total - l.length; r.imgs = l;
+  });
   const seen = {}; rows.forEach(r => { let k = r.id + '|' + r.assoc; seen[k] = (seen[k] || 0) + 1; r.key = seen[k] > 1 ? k + '#' + seen[k] : k; });
   F = newF(); page = 0; stat = 'all'; $('q').value = '';
   $('msbox').innerHTML = ORDER.map(k => `<details class="ms" data-k="${k}"><summary>${MS[k]}: <i>All</i></summary><div class="pn"><input type="text" class="sq" placeholder="Search ${MS[k].toLowerCase()}..."><div class="pb"><button type="button" class="ghost" data-all="1">Select shown</button><button type="button" class="ghost" data-clr="1">Clear</button></div><div class="ol"></div></div></details>`).join('');
@@ -252,7 +300,13 @@ function match(r, skip, noStatus) {
   const q = $('q').value.trim().toLowerCase();
   return !q || (r.id + ' ' + r.asin + ' ' + r.assoc).toLowerCase().includes(q);
 }
-const flt = () => rows.filter(r => match(r));
+const flt = () => {
+  const f = rows.filter(r => match(r)), m = $('sort').value;
+  if (m === 'assoc') f.sort((a, b) => a.assoc.localeCompare(b.assoc));
+  else if (m === 'asin') f.sort((a, b) => a.asin.localeCompare(b.asin));
+  else if (m === 'date') f.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+  return f;
+};
 function fillMS(k) {
   const d = document.querySelector('.ms[data-k="' + k + '"]'); if (!d) return;
   const cnt = {}; rows.forEach(r => { if (r[k] && match(r, k, true)) cnt[r[k]] = (cnt[r[k]] || 0) + 1; });
@@ -277,7 +331,7 @@ function card(r) {
 <div class="ch"><div class="meta"><b>${E(r.asin)}</b><span>ID ${E(r.id)}</span><span>Login: ${E(r.assoc)}</span><span>${E(r.date)}</span><span>Week ${E(r.week)}</span><span>${E(r.pkg)}</span><span>Manager: ${E(r.mgr)}</span>${isExp(r) ? '<span class="exp">Image links expired</span>' : ''}</div>
 <div class="acts"><label><input type="checkbox" class="cr"${s.r ? ' checked' : ''}> Reviewed</label><label class="dl"><input type="checkbox" class="cd"${s.d ? ' checked' : ''}> Mark for Dispute</label></div></div>
 <div class="db"${s.d ? '' : ' hidden'}><div class="dt"><button type="button" class="ghost" data-sa="1">Select all images</button><button type="button" class="ghost" data-sa="0">Clear images</button></div><textarea placeholder="Enter dispute comment (saved automatically)...">${E(s.c || '')}</textarea></div>
-<div class="imgs">${r.imgs.map(m => `<figure><label class="ic"><input type="checkbox" data-k="${m.k}"${sel.has(m.k) ? ' checked' : ''}></label><img loading="lazy" src="${E(m.u)}" alt="Image unavailable" data-z="1"></figure>`).join('') || '<i>No images in this row</i>'}</div>
+<div class="imgs">${r.imgs.length ? `<div class="inav"><button type="button" class="ghost" data-nav="-1" aria-label="Previous image">&#8249;</button><span class="icur"${r.hidden ? ` title="${r.hidden} duplicate or cropped link${r.hidden === 1 ? '' : 's'} hidden"` : ''}>${r.imgs.length} image${r.imgs.length === 1 ? '' : 's'}</span><button type="button" class="ghost" data-nav="1" aria-label="Next image">&#8250;</button></div><div class="ilist">${r.imgs.map((m, n) => { const f = r.imgs.findIndex(x => x.u === m.u); return `<span class="ip${f !== n ? ' dup' : ''}"${f !== n ? ` title="Same link as Image ${f + 1}"` : ''}><label class="ic"><input type="checkbox" data-k="${m.k}"${sel.has(m.k) ? ' checked' : ''}></label><a href="${E(m.u)}" data-n="${n}" target="_blank" rel="noopener noreferrer">Image ${n + 1}</a></span>`; }).join('')}</div>` : '<i>No images in this row</i>'}</div>
 <div class="info"><div><b>Associate response</b>${chips(r.resp, '')}</div><div><b>Auditor response</b>${chips(r.aud, '')}</div><div><b>Root cause</b>${rootHTML(r.root)}</div>
 <div class="lk"><a href="${E(r.retail)}" target="_blank">Retail page</a><a href="${DL}${E(r.id)}" target="_blank">Dispute link</a></div></div></article>`;
 }
@@ -287,24 +341,29 @@ function stats(f) {
   $('stats').textContent = 'Showing ' + f.length + ' of ' + rows.length + ' defects  |  Reviewed ' + rv + ' of ' + rows.length + '  |  Disputed ' + dp;
   $('prog').firstChild.style.width = (rows.length ? rv * 100 / rows.length : 0) + '%';
 }
+function statusBar() {
+  const base = rows.filter(r => match(r, null, true)), n = fn => base.filter(r => fn(state[r.key] || {})).length;
+  const c = {all: base.length, un: n(x => !x.r), rev: n(x => x.r), dis: n(x => x.d)};
+  $('status').innerHTML = Object.keys(SL).map(k => `<button data-s="${k}"${stat === k ? ' class="on"' : ''}>${SL[k]} <em>${c[k]}</em></button>`).join('');
+}
 function render() {
+  activeCard = null; $('vbar').hidden = true;
   const f = flt(), ps = +$('psize').value, pages = Math.max(1, Math.ceil(f.length / ps));
   if (page >= pages) page = pages - 1;
   $('list').innerHTML = f.slice(page * ps, page * ps + ps).map(card).join('') || '<p class="empty">No defects match these filters.</p>';
   $('pager').innerHTML = `<button data-p="-1"${page ? '' : ' disabled'}>Previous</button>Page ${page + 1} of ${pages}<button data-p="1"${page < pages - 1 ? '' : ' disabled'}>Next</button>`;
   ORDER.forEach(fillMS);
-  const base = rows.filter(r => match(r, null, true)), n = fn => base.filter(r => fn(state[r.key] || {})).length;
-  const c = {all: base.length, un: n(x => !x.r), rev: n(x => x.r), dis: n(x => x.d)};
-  $('status').innerHTML = Object.keys(SL).map(k => `<button data-s="${k}"${stat === k ? ' class="on"' : ''}>${SL[k]} <em>${c[k]}</em></button>`).join('');
+  statusBar();
   const ch = []; ORDER.forEach(k => F[k].forEach(v => ch.push(`<span class="fc">${MS[k]}: ${E(v)}<button data-k="${k}" data-v="${E(v)}">&times;</button></span>`)));
   $('chips').innerHTML = ch.length ? ch.join('') + '<button class="ghost" data-all="1">Clear all filters</button>' : '';
   stats(f);
 }
 const disputed = () => rows.filter(r => (state[r.key] || {}).d);
+const linksOf = (r, s) => (s.i || []).slice().sort((a, b) => a - b).map(k => (r.imgs.find(m => m.k === k) || {}).u).filter(Boolean).filter((u, i, a) => a.indexOf(u) === i);
 function sumRender() {
   const d = disputed();
   $('sum').hidden = !d.length; $('dc').textContent = d.length;
-  $('slist').innerHTML = d.map(r => { const s = state[r.key], n = (s.i || []).length; return `<div class="si"><b>${E(r.asin)}</b> | ${E(r.assoc)} | ${n} image link${n === 1 ? '' : 's'} | ${E(s.c || '(no comment yet)')}</div>`; }).join('');
+  $('slist').innerHTML = d.map(r => { const s = state[r.key], n = linksOf(r, s).length; return `<div class="si"><b>${E(r.asin)}</b> | ${E(r.assoc)} | ${n} image link${n === 1 ? '' : 's'} | ${E(s.c || '(no comment yet)')}</div>`; }).join('');
 }
 
 /* ---------- events ---------- */
@@ -316,8 +375,27 @@ async function loadFile(f) {
 }
 $('file').addEventListener('change', e => loadFile(e.target.files[0]));
 ['dragover', 'drop'].forEach(n => document.addEventListener(n, e => { e.preventDefault(); if (n === 'drop') loadFile(e.dataTransfer.files[0]); }));
-document.addEventListener('error', e => { if (e.target.tagName === 'IMG' && e.target.id !== 'lbi') e.target.classList.add('err'); }, true);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') $('lb').hidden = true; });
+let activeCard = null;
+const curOf = c => c.dataset.cur === undefined ? -1 : +c.dataset.cur;
+function openImg(c, n) {
+  const links = [...c.querySelectorAll('.ilist a')]; if (!links.length) return false;
+  n = (n + links.length) % links.length; activeCard = c; c.dataset.cur = n;
+  c.querySelectorAll('.ip').forEach((p, i) => p.classList.toggle('cur', i === n));
+  const txt = 'Image ' + (n + 1) + ' of ' + links.length;
+  c.querySelector('.icur').textContent = txt;
+  $('vt').textContent = c.querySelector('.meta b').textContent + '  |  ' + txt; $('vbar').hidden = false;
+  const W = Math.round(screen.availWidth * 0.5), L = (screen.availLeft || 0) + screen.availWidth - W;
+  const w = window.open(links[n].href, 'imgview', 'width=' + W + ',height=' + screen.availHeight + ',left=' + L + ',top=' + (screen.availTop || 0) + ',scrollbars=yes,resizable=yes');
+  if (w) w.focus();
+  return !!w;
+}
+$('vp').addEventListener('click', () => activeCard && openImg(activeCard, curOf(activeCard) - 1));
+$('vn').addEventListener('click', () => activeCard && openImg(activeCard, curOf(activeCard) + 1));
+$('vx').addEventListener('click', () => { $('vbar').hidden = true; activeCard = null; });
+document.addEventListener('keydown', e => {
+  if (!activeCard || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  if (e.key === 'ArrowRight') openImg(activeCard, curOf(activeCard) + 1); else if (e.key === 'ArrowLeft') openImg(activeCard, curOf(activeCard) - 1);
+});
 $('msbox').addEventListener('change', e => {
   const d = e.target.closest('.ms'); if (!d || e.target.classList.contains('sq')) return;
   const k = d.dataset.k; e.target.checked ? F[k].add(e.target.value) : F[k].delete(e.target.value); page = 0; render();
@@ -335,7 +413,7 @@ $('chips').addEventListener('click', e => {
   if (b.dataset.all) { F = newF(); $('q').value = ''; stat = 'all'; } else F[b.dataset.k].delete(b.dataset.v);
   page = 0; render();
 });
-$('psize').addEventListener('change', () => { page = 0; render(); });
+['psize', 'sort'].forEach(i => $(i).addEventListener('change', () => { page = 0; render(); }));
 $('q').addEventListener('input', () => { page = 0; render(); });
 $('pager').addEventListener('click', e => { if (e.target.dataset.p) { page += +e.target.dataset.p; render(); $('stats').scrollIntoView(); } });
 $('list').addEventListener('change', e => {
@@ -345,8 +423,12 @@ $('list').addEventListener('change', e => {
   else if (el.classList.contains('cd')) {
     s.d = el.checked; c.classList.toggle('on', el.checked); c.querySelector('.db').hidden = !el.checked;
     if (!el.checked) { s.i = []; s.c = ''; c.querySelectorAll('.ic input').forEach(i => i.checked = false); c.querySelector('textarea').value = ''; }
-  } else if (el.closest('.ic')) s.i = [...c.querySelectorAll('.ic input:checked')].map(i => +i.dataset.k);
-  persist(); sumRender(); stats();
+  } else if (el.closest('.ic')) {
+    const u = el.closest('.ip').querySelector('a').getAttribute('href');
+    c.querySelectorAll('.ip').forEach(q => { if (q.querySelector('a').getAttribute('href') === u) q.querySelector('.ic input').checked = el.checked; });
+    s.i = [...c.querySelectorAll('.ic input:checked')].map(i => +i.dataset.k);
+  }
+  persist(); sumRender(); stats(); statusBar();
 });
 $('list').addEventListener('input', e => {
   if (e.target.tagName !== 'TEXTAREA') return;
@@ -354,15 +436,16 @@ $('list').addEventListener('input', e => {
   s.c = e.target.value; persist(); sumRender();
 });
 $('list').addEventListener('click', e => {
-  const el = e.target;
-  if (el.dataset.z) { $('lbi').src = el.src; $('lb').hidden = false; }
+  const el = e.target, c = el.closest('.card'); if (!c) return;
+  const a = el.closest('.ilist a'), nb = el.closest('[data-nav]');
+  if (a) { if (openImg(c, +a.dataset.n)) e.preventDefault(); }
+  else if (nb) openImg(c, curOf(c) + +nb.dataset.nav);
   else if (el.dataset.sa !== undefined) {
-    const c = el.closest('.card'), s = state[c.dataset.id] = state[c.dataset.id] || {};
+    const s = state[c.dataset.id] = state[c.dataset.id] || {};
     c.querySelectorAll('.ic input').forEach(i => i.checked = el.dataset.sa === '1');
     s.i = [...c.querySelectorAll('.ic input:checked')].map(i => +i.dataset.k); persist(); sumRender();
   }
 });
-$('lb').addEventListener('click', () => $('lb').hidden = true);
 $('clear').addEventListener('click', () => { if (confirm('Clear all saved Reviewed / Dispute marks and comments?')) { state = {}; persist(); render(); sumRender(); } });
 
 /* ---------- copy to Excel (clickable hyperlinks) ---------- */
@@ -378,7 +461,7 @@ function copyX() {
   const p = $('rd').value.split('-'), rdate = p.length === 3 ? p[1] + '/' + p[2] + '/' + p[0] : '';
   let html = '<table><tr>' + hd.map(h => th + h + '</th>').join('') + '</tr>', text = hd.join('\t') + '\n';
   d.forEach(r => {
-    const s = state[r.key], links = (s.i || []).slice().sort((a, b) => a - b).map(k => (r.imgs.find(m => m.k === k) || {}).u).filter(Boolean);
+    const s = state[r.key], links = linksOf(r, s);
     const dl = DL + r.id, row = [clean(rdate), clean(r.assoc), clean(r.asin)];
     html += '<tr>' + cell(rdate) + cell(r.assoc) + cell(r.asin);
     for (let i = 0; i < mx; i++) { html += lc(links[i], 'image ' + (i + 1)); row.push(links[i] || ''); }
@@ -396,6 +479,7 @@ function copyX() {
   else fallback();
 }
 $('copy').addEventListener('click', copyX);
+$('stg').addEventListener('click', () => { const h = $('slist').hidden = !$('slist').hidden; $('stg').textContent = h ? 'Show list' : 'Hide list'; });
 </script>
 </body>
 </html>
